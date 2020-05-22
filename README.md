@@ -1,8 +1,8 @@
 # FiveInRow Server
-##prerequisites
+## prerequisites
 mingw-w64 (i686-8.1.0-posix-dwarf-rt_v6-rev0) on PATH
 
-##build
+## build
 ```
 cd FiveInRow
 mkdir build
@@ -12,7 +12,7 @@ cmake --build . --target FiveInRowServer -- -j 8
 ```
 
 # FiveInRow Client
-##build
+## build
 ```
 cd FiveInRowClient
 mkdir build
@@ -21,7 +21,7 @@ cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - MinGW Makefiles" ..
 cmake --build . --target FiveInRowClient -- -j 8
 ```
 
-#Limitations
+# Limitations
 - windows only
 - missing implementation of win conditions (endless game)
 - missing many unit tests
