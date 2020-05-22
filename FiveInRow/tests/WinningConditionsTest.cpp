@@ -6,7 +6,8 @@ TEST(WinningConditionsTestSuite, ShouldReturnFalseGivenEmptyBoard) {
     auto expectedResult = false;
     GameState gameState;
 
-    auto actualResult = sut.IsGameWon(gameState);
+    char winnerPlayerSymbol;
+    auto actualResult = sut.IsGameWon(gameState, winnerPlayerSymbol);
 
     ASSERT_EQ(expectedResult, actualResult);
 }
