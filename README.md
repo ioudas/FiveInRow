@@ -9,6 +9,7 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - MinGW Makefiles" ..
 cmake --build . --target FiveInRowServer -- -j 8
+cmake --build . --target TestRun -- -j 8
 ```
 
 # FiveInRow Client
@@ -23,6 +24,6 @@ cmake --build . --target FiveInRowClient -- -j 8
 
 # Limitations
 - windows only
-- missing implementation of win conditions (endless game)
+- missing implementation of win conditions (failing unit tests)
 - missing many unit tests
 - single threaded
