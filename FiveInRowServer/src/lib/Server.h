@@ -26,9 +26,12 @@
 class IServer {
 public:
    virtual ~IServer() { };
-   virtual void Start(int port = 8888) = 0;
+   virtual void Start(int port) = 0;
    virtual void SendMessageToPlayer(MessageType messageType, int playerId, std::string message) = 0;
    virtual void BroadCastMessage(MessageType messageType, std::string message) = 0;
+   virtual void SetOnPlayerConnected(std::function<void(int)> callback) = 0;
+   virtual void SetOnPlayerLeft(std::function<void(int)> callback) = 0;
+   virtual void SetOnPlayerInput(std::function<void(int, std::string)> callback) = 0;
 };
 
 class Server : public IServer {
@@ -42,17 +45,17 @@ private:
     int AcceptConnection(const sockaddr_in &address);
     void OnClientDisconnected(const sockaddr_in &address, int &addrlen, int i, SOCKET sd);
     void OnClientMessage(int valread, int i, char *buffer);
-public:
-    ~Server();
-    void Start(int port = 8888) override;
-    void SendMessageToPlayer(MessageType messageType, int playerId, std::string message) override;
-    void BroadCastMessage(MessageType messageType, std::string message) override;
-    std::function<void(int)> PlayerConnected;
+    std::function<void(int)> onPlayerConnected;
     std::function<void(int)> onPlayerLeft;
     std::function<void(int, std::string)> onPlayerInput;
-
-
-
+public:
+    ~Server() override;
+    void Start(int port) override;
+    void SendMessageToPlayer(MessageType messageType, int playerId, std::string message) override;
+    void BroadCastMessage(MessageType messageType, std::string message) override;
+    void SetOnPlayerConnected(std::function<void(int)> callback) override;
+    void SetOnPlayerLeft(std::function<void(int)> callback) override;
+    void SetOnPlayerInput(std::function<void(int, std::string)> callback) override;
 };
 
 #endif //FIVEINROW_SERVER_H

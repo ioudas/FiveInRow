@@ -36,7 +36,18 @@ void Server::BroadCastMessage(MessageType messageType, std::string message) {
             throw ServerException("Could not send activity: code " + std::to_string(error));
         }
     }
+}
 
+void Server::SetOnPlayerConnected(std::function<void(int)> callback) {
+    onPlayerConnected = callback;
+}
+
+void Server::SetOnPlayerLeft(std::function<void(int)> callback) {
+    onPlayerLeft = callback;
+}
+
+void Server::SetOnPlayerInput(std::function<void(int, std::string)> callback) {
+    onPlayerInput = callback;
 }
 
 Server::~Server() {
@@ -174,7 +185,7 @@ int Server::AcceptConnection(const sockaddr_in &address) {
             clientSockets[i] = new_socket;
             printf("Adding to list of sockets as %d\n", i);
             //Trigger callback
-            PlayerConnected(i);
+            onPlayerConnected(i);
 
             break;
         }
@@ -213,5 +224,3 @@ if (status == 0) { status = close(sock); }
     return status;
 
 }
-
-

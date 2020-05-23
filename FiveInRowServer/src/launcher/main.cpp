@@ -8,6 +8,10 @@
 #include "WinningConditions.h"
 #include "Exceptions/ServerException.cpp"
 
+#define DEFAULT_PORT 8888;
+
+int TryParsePort(char *firstArg);
+
 int main(int argc, char *argv[]) {
 
     //manual IoC :/
@@ -18,8 +22,14 @@ int main(int argc, char *argv[]) {
     GameInterface gameInterface(server, repository, boardFormatter);
     GameEngine game(repository, server, gameInterface, winningConditions);
 
+    int port = DEFAULT_PORT;
+    if(argc < 2)
+        std::cout << "To change the default port use syntax: \"server.exe <port>\"\n";
+    else
+        port = TryParsePort(argv[1]);
+
     try {
-        game.Start();
+        game.Start(port);
 
     } catch (ServerException &e) {
         perror(e.what());
@@ -27,5 +37,15 @@ int main(int argc, char *argv[]) {
     }
 
     return EXIT_SUCCESS;
+}
+
+int TryParsePort(char *firstArg) {
+    try {
+        return std::stoi(firstArg);
+    } catch (std::exception const &e) {
+        perror(("Invalid port " + std::string(firstArg)).c_str());
+        exit(EXIT_FAILURE);
+    }
+
 }
 

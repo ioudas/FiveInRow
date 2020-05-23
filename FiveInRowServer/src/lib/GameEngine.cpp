@@ -1,11 +1,11 @@
 #include "GameEngine.h"
 
-void GameEngine::Start() {
-    server.PlayerConnected = [this](int playerId) { this->PlayerConnected(playerId); };
-    server.onPlayerLeft = [this](int playerId) { this->PlayerLeft(playerId); };
-    server.onPlayerInput = [this](int playerId, string input) { this->PlayerInput(playerId, input); };
+void GameEngine::Start(int port) {
+    server.SetOnPlayerConnected([this](int playerId) { this->PlayerConnected(playerId); });
+    server.SetOnPlayerLeft([this](int playerId) { this->PlayerLeft(playerId); });
+    server.SetOnPlayerInput([this](int playerId, string input) { this->PlayerInput(playerId, input); });
 
-    server.Start();
+    server.Start(port);
 }
 
 void GameEngine::PlayerConnected(int playerId) {
@@ -86,10 +86,10 @@ void GameEngine::HandleLogin(int playerId, string input) {
     auto otherPlayer = repository.GetOpponent(playerId);
     gameInterface.NotifyOpponentConnected(otherPlayer.Id, input);
 
-    StartGame();
+    StartNewGame();
 }
 
-void GameEngine::StartGame() {
+void GameEngine::StartNewGame() {
     gameInterface.NotifyGameStarting();
     gameInterface.SendBoardState();
 
