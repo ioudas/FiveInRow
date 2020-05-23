@@ -4,9 +4,14 @@
 
 #include "Models/GameState.cpp"
 
-class WinningConditions {
+class IWinningConditions {
 public:
-    bool IsGameWon(GameState gameState, char &winnerPlayerSymbol);
+    virtual bool IsGameWon(GameState gameState, char &winnerPlayerSymbol) const = 0;
+};
+
+class WinningConditions : IWinningConditions{
+public:
+    bool IsGameWon(GameState gameState, char &winnerPlayerSymbol) const override;
 };
 
 

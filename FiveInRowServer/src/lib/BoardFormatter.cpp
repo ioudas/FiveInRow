@@ -2,7 +2,7 @@
 #include "BoardFormatter.h"
 
 
-std::string BoardFormatter::GetAscii(GameState gameState) {
+std::string BoardFormatter::GetAscii(GameState gameState) const{
     std::string boardAscii;
     boardAscii.append("Board:\n");
     for (int rowIdx = 5; rowIdx >= 0; rowIdx--) {
@@ -22,7 +22,7 @@ std::string BoardFormatter::GetAscii(GameState gameState) {
     return boardAscii;
 }
 
-std::string BoardFormatter::GetLegend(GameState gameState) {
+std::string BoardFormatter::GetLegend(GameState gameState) const{
     std::string legend;
     legend.append("Legend:\n");
     for (Player player : gameState.Players) {

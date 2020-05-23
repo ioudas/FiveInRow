@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
 #include "Server.h"
 
-class ServerMock : IServer {
+class ServerMock : public IServer {
 public:
     MOCK_METHOD(void, Start, (int), (override));
     MOCK_METHOD(void, SendMessageToPlayer, (MessageType messageType, int playerId, std::string message), (override));

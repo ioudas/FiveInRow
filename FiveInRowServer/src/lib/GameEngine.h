@@ -11,9 +11,9 @@ using std::string;
 
 class GameEngine {
 private:
-    Repository &repository;
-    WinningConditions &winningConditions;
-    GameInterface &gameInterface;
+    IRepository &repository;
+    IWinningConditions &winningConditions;
+    IGameInterface &gameInterface;
     IServer &server;
 
     void StartNewGame();
@@ -23,10 +23,10 @@ private:
     void HandleGameWon(char winnerSymbol) const;
 
 public:
-    GameEngine(Repository &repository,
-               Server &server,
-               GameInterface &gameInterface,
-               WinningConditions &winningConditions) :
+    GameEngine(IRepository &repository,
+               IServer &server,
+               IGameInterface &gameInterface,
+               IWinningConditions &winningConditions) :
             repository(repository),
             gameInterface(gameInterface),
             winningConditions(winningConditions),

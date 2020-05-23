@@ -1,12 +1,18 @@
 #include "gmock/gmock.h"
-#include "Server.h"
+#include "Repository.h"
 
-class RepositoryMock : IServer {
+class RepositoryMock : public IRepository {
 public:
-    MOCK_METHOD(void, Start, (int), (override));
-    MOCK_METHOD(void, SendMessageToPlayer, (MessageType messageType, int playerId, std::string message), (override));
-    MOCK_METHOD(void, BroadCastMessage, (MessageType messageType, std::string message), (override));
-    MOCK_METHOD(void, SetOnPlayerConnected, (std::function<void(int)> callback), (override));
-    MOCK_METHOD(void, SetOnPlayerLeft, (std::function<void(int)> callback), (override));
-    MOCK_METHOD(void, SetOnPlayerInput, (std::function<void(int, std::string)> callback), (override));
+    MOCK_METHOD(GameState, GetGameState, (), (const, override));
+    MOCK_METHOD(void, SetActingPlayerId, (int playerId), (override));
+    MOCK_METHOD(int, GetActingPlayerId, (), (override));
+    MOCK_METHOD(void, AddPlayerTurn, (int playerId, int columnNum), (override));
+    MOCK_METHOD(void, AddPlayer, (int playerId), (override));
+    MOCK_METHOD(void, SetPlayerName, (int playerId, std::string playerName), (override));
+    MOCK_METHOD(int, GetPlayerCount, (), (override));
+    MOCK_METHOD(Player&, GetPlayer, (int playerId), (override));
+    MOCK_METHOD(std::vector<Player>,  GetPlayers, (), (override));
+    MOCK_METHOD(Player, GetOpponent, (int playerId), (override));
+    MOCK_METHOD(char, GetPlayerSymbol, (int playerId), (override));
+    MOCK_METHOD(void, ClearState, (), (override));
 };

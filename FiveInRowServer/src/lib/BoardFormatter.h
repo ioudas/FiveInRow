@@ -6,11 +6,16 @@
 #include "Models/GameState.cpp"
 #include "Util/StringUtil.cpp"
 
-class BoardFormatter {
+class IBoardFormatter {
 public:
-    static std::string GetAscii(GameState gameState);
+    virtual std::string GetAscii(GameState gameState) const = 0;
+    virtual std::string GetLegend(GameState gameState) const = 0;
+};
 
-    std::string GetLegend(GameState gameState);
+class BoardFormatter : IBoardFormatter {
+public:
+    std::string GetAscii(GameState gameState) const override;
+    std::string GetLegend(GameState gameState) const override;
 };
 
 
