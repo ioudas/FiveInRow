@@ -6,6 +6,7 @@
 #include "WinningConditions.h"
 
 #include <string>
+#include <Util/RandomProvider.h>
 
 using std::string;
 
@@ -14,6 +15,7 @@ private:
     IRepository &repository;
     IWinningConditions &winningConditions;
     IGameInterface &gameInterface;
+    IRandomProvider &randomProvider;
     IServer &server;
 
     void StartNewGame();
@@ -26,10 +28,12 @@ public:
     GameEngine(IRepository &repository,
                IServer &server,
                IGameInterface &gameInterface,
-               IWinningConditions &winningConditions) :
+               IWinningConditions &winningConditions,
+               IRandomProvider &randomProvider) :
             repository(repository),
             gameInterface(gameInterface),
             winningConditions(winningConditions),
+            randomProvider(randomProvider),
             server(server) {};
 
     void Start(int port);

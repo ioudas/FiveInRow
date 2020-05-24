@@ -11,7 +11,7 @@ void Repository::AddPlayerTurn(int playerId, int columnNum) {
     gameState.Board[columnNum - 1][lastRow] = symbol;
 }
 
-Player Repository::GetOpponent(int playerId) {
+Player& Repository::GetOpponent(int playerId) {
     Player &opponent = *std::find_if(gameState.Players.begin(), gameState.Players.end(),
                                      [playerId](const Player p) { return p.Id != playerId; });
     return opponent;

@@ -22,7 +22,7 @@ public:
     virtual void NotifyGameAbandoned(int winnerPlayerId, string playerLeftName) = 0;
 };
 
-class GameInterface : IGameInterface{
+class GameInterface : public IGameInterface{
 private:
     Server &server;
     Repository &repository;

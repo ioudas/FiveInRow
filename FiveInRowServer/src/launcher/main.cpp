@@ -19,8 +19,9 @@ int main(int argc, char *argv[]) {
     Server server;
     WinningConditions winningConditions;
     BoardFormatter boardFormatter;
+    RandomProvider randomProvider;
     GameInterface gameInterface(server, repository, boardFormatter);
-    GameEngine game(repository, server, gameInterface, winningConditions);
+    GameEngine game(repository, server, gameInterface, winningConditions, randomProvider);
 
     int port = DEFAULT_PORT;
     if(argc < 2)

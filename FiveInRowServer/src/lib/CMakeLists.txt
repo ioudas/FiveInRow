@@ -8,6 +8,7 @@ set(HEADER_FILES
         WinningConditions.h
         BoardFormatter.h
         ProtocolHelper.h
+        Util/RandomProvider.h
         )
 
 set(SOURCE_FILES
@@ -23,6 +24,6 @@ set(SOURCE_FILES
         Models/MessageType.cpp
         Models/Player.cpp
         Util/StringUtil.cpp
-        )
+        Util/RandomProvider.cpp)
 
 add_library(FiveInRowServerLib STATIC ${SOURCE_FILES} ${HEADER_FILES})

@@ -26,7 +26,7 @@ public:
 
     virtual std::vector<Player> GetPlayers() = 0;
 
-    virtual Player GetOpponent(int playerId) = 0;
+    virtual Player& GetOpponent(int playerId) = 0;
 
     virtual char GetPlayerSymbol(int playerId) = 0;
 
@@ -34,7 +34,7 @@ public:
 };
 
 
-class Repository : IRepository{
+class Repository : public IRepository{
 private:
     GameState gameState;
     int GetLastRow(const GameState &gameState, int columnIdx);
@@ -59,7 +59,7 @@ public:
 
     std::vector<Player> GetPlayers() override;
 
-    Player GetOpponent(int playerId) override;
+    Player& GetOpponent(int playerId) override;
 
     char GetPlayerSymbol(int playerId) override;
 

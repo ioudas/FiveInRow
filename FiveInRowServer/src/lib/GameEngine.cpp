@@ -95,7 +95,7 @@ void GameEngine::StartNewGame() {
 
     //Shuffle starting player
     auto players = repository.GetPlayers();
-    unsigned int index = rand() % players.size();
+    unsigned int index = randomProvider.Next(0, 1);
     auto player = players[index];
 
     repository.SetActingPlayerId(player.Id);

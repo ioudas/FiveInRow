@@ -9,7 +9,7 @@ public:
     virtual bool IsGameWon(GameState gameState, char &winnerPlayerSymbol) const = 0;
 };
 
-class WinningConditions : IWinningConditions{
+class WinningConditions : public IWinningConditions{
 public:
     bool IsGameWon(GameState gameState, char &winnerPlayerSymbol) const override;
 };

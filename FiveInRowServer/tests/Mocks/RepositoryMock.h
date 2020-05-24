@@ -12,7 +12,7 @@ public:
     MOCK_METHOD(int, GetPlayerCount, (), (override));
     MOCK_METHOD(Player&, GetPlayer, (int playerId), (override));
     MOCK_METHOD(std::vector<Player>,  GetPlayers, (), (override));
-    MOCK_METHOD(Player, GetOpponent, (int playerId), (override));
+    MOCK_METHOD(Player&, GetOpponent, (int playerId), (override));
     MOCK_METHOD(char, GetPlayerSymbol, (int playerId), (override));
     MOCK_METHOD(void, ClearState, (), (override));
 };
