@@ -2,6 +2,9 @@
 #include <iostream>
 #include "Game.h"
 
+using std::cout;
+using std::endl;
+
 void Game::Start(std::string hostname, int port) {
     std::string playerName = GetPlayerName();
     client.Connect(hostname, port);
@@ -11,7 +14,7 @@ void Game::Start(std::string hostname, int port) {
         ProcessResponse(response);
     }
 
-    printf(response.Message.c_str());
+    cout << response.Message << endl;
 }
 
 std::string Game::GetPlayerName() const {

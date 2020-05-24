@@ -1,3 +1,7 @@
+
+#ifndef FIVEINROWSERVER_PLAYER_H
+#define FIVEINROWSERVER_PLAYER_H
+
 #include <string>
 
 class Player {
@@ -8,3 +12,5 @@ public:
 
     explicit Player(int playerId) : Id(playerId) {}
 };
+
+#endif //FIVEINROWSERVER_PLAYER_H

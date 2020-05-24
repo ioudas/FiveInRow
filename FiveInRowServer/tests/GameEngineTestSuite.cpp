@@ -22,7 +22,8 @@ protected:
     WinningConditionsMock winningConditionsMock;
     GameInterfaceMock gameInterfaceMock;
     RandomProviderMock randomProviderMock;
-    GameEngine sut = GameEngine(repositoryMock, serverMock, gameInterfaceMock, winningConditionsMock, randomProviderMock);
+    GameEngine sut = GameEngine(repositoryMock, serverMock, gameInterfaceMock, winningConditionsMock,
+                                randomProviderMock);
     Player player = Player(6);
     Player opponent = Player(16);
     std::vector<Player> players;
@@ -98,14 +99,14 @@ TEST_F(GameEngineTestSuite, 6ShouldStartNewGameGivenSecondPlayerConnected) {
 
 TEST_F(GameEngineTestSuite, 7ShouldIgnoreUnexpectedInputGivenNotEnoughPlayers) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(1));
-    EXPECT_CALL(repositoryMock, AddPlayerTurn).Times(Exactly(0));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn).Times(Exactly(0));
     sut.PlayerInput(opponent.Id, "iddqd");
 }
 
 TEST_F(GameEngineTestSuite, 8ShouldIgnoreOutOfTurnInput) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
     EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(player.Id));
-    EXPECT_CALL(repositoryMock, AddPlayerTurn).Times(Exactly(0));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn).Times(Exactly(0));
     sut.PlayerInput(opponent.Id, "2");
 }
 
@@ -113,7 +114,7 @@ TEST_F(GameEngineTestSuite, 9ShouldNotifyInvalidInputGivenNotDigit) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
     EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(opponent.Id));
     EXPECT_CALL(gameInterfaceMock, RetryInvalidInput(opponent.Id)).Times(Exactly(1));
-    EXPECT_CALL(repositoryMock, AddPlayerTurn).Times(Exactly(0));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn).Times(Exactly(0));
     sut.PlayerInput(opponent.Id, "idkfa");
 }
 
@@ -121,7 +122,7 @@ TEST_F(GameEngineTestSuite, 10ShouldNotifyInvalidInputGivenOutOfBoundsLow) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
     EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(opponent.Id));
     EXPECT_CALL(gameInterfaceMock, RetryInvalidInput(opponent.Id)).Times(Exactly(1));
-    EXPECT_CALL(repositoryMock, AddPlayerTurn).Times(Exactly(0));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn).Times(Exactly(0));
     sut.PlayerInput(opponent.Id, "0");
 }
 
@@ -129,14 +130,14 @@ TEST_F(GameEngineTestSuite, 11ShouldNotifyInvalidInputGivenOutOfBoundsHigh) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
     EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(opponent.Id));
     EXPECT_CALL(gameInterfaceMock, RetryInvalidInput(opponent.Id)).Times(Exactly(1));
-    EXPECT_CALL(repositoryMock, AddPlayerTurn).Times(Exactly(0));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn).Times(Exactly(0));
     sut.PlayerInput(opponent.Id, "10");
 }
 
 TEST_F(GameEngineTestSuite, 12ShouldProcessPlayerTurn) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
     EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(player.Id));
-    EXPECT_CALL(repositoryMock, AddPlayerTurn(player.Id, 1)).Times(Exactly(1));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn(player.Id, 1, _)).Times(Exactly(1)).WillOnce(Return(true));
     EXPECT_CALL(winningConditionsMock, IsGameWon).Times(Exactly(1));
     EXPECT_CALL(repositoryMock, SetActingPlayerId(opponent.Id)).Times(Exactly(1));
     sut.PlayerInput(player.Id, "1");
@@ -156,4 +157,21 @@ TEST_F(GameEngineTestSuite, 14ShouldShuffleStartingPlayerRandomly) {
     EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
     EXPECT_CALL(repositoryMock, SetActingPlayerId(opponent.Id)).Times(Exactly(1));
     sut.PlayerInput(opponent.Id, opponent.PlayerName);
+}
+
+TEST_F(GameEngineTestSuite, 14ShouldNotifyGameWon) {
+    EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
+    EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(player.Id));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn(player.Id, 4, _)).WillOnce(Return(true));
+    EXPECT_CALL(winningConditionsMock, IsGameWon).WillOnce(Return(true));
+    EXPECT_CALL(gameInterfaceMock, NotifyGameWon(player.PlayerName)).Times(Exactly(1));
+    sut.PlayerInput(player.Id, "4");
+}
+
+TEST_F(GameEngineTestSuite, 15ShouldNotifyColumnFull) {
+    EXPECT_CALL(repositoryMock, GetPlayerCount).WillRepeatedly(Return(2));
+    EXPECT_CALL(repositoryMock, GetActingPlayerId).WillOnce(Return(player.Id));
+    EXPECT_CALL(repositoryMock, TryAddPlayerTurn(player.Id, 4, _)).WillOnce(Return(false));
+    EXPECT_CALL(gameInterfaceMock, RetryInputOutOfBounds(player.Id)).Times(Exactly(1));
+    sut.PlayerInput(player.Id, "4");
 }

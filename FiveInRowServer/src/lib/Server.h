@@ -3,7 +3,7 @@
 
 #include <string>
 #include <functional>
-#include "Models/MessageType.cpp"
+#include "Models/MessageType.h"
 #ifdef _WIN32
 /* See http://stackoverflow.com/questions/12765743/getaddrinfo-on-win32 */
 #ifndef _WIN32_WINNT

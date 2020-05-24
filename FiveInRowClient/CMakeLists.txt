@@ -4,15 +4,19 @@ project(FiveInRowClient)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 if(WIN32)
     link_libraries(Ws2_32 wsock32)
 endif()
 
 set(SOURCE_FILES src/launcher/main.cpp)
 
+
+
 include_directories(src/lib)
 add_subdirectory(src/lib)
 add_executable(FiveInRowClient ${SOURCE_FILES})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "client")
 
 target_link_libraries(FiveInRowClient FiveInRowClientLib)

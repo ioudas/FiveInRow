@@ -6,7 +6,7 @@ public:
     MOCK_METHOD(GameState, GetGameState, (), (const, override));
     MOCK_METHOD(void, SetActingPlayerId, (int playerId), (override));
     MOCK_METHOD(int, GetActingPlayerId, (), (override));
-    MOCK_METHOD(void, AddPlayerTurn, (int playerId, int columnNum), (override));
+    MOCK_METHOD(bool, TryAddPlayerTurn, (int playerId, int columnNum, Coords& coords), (override));
     MOCK_METHOD(void, AddPlayer, (int playerId), (override));
     MOCK_METHOD(void, SetPlayerName, (int playerId, std::string playerName), (override));
     MOCK_METHOD(int, GetPlayerCount, (), (override));

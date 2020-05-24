@@ -5,10 +5,17 @@ GameState Repository::GetGameState() const {
     return gameState;
 }
 
-void Repository::AddPlayerTurn(int playerId, int columnNum) {
+bool Repository::TryAddPlayerTurn(int playerId, int columnNum, Coords &coords) {
     int lastRow = GetLastRow(gameState, columnNum - 1);
+
+    if (lastRow == 6)
+        return false;
+
     auto symbol = GetPlayerSymbol(playerId);
-    gameState.Board[columnNum - 1][lastRow] = symbol;
+    coords = Coords(columnNum - 1, lastRow);
+    gameState.Board[coords.x][coords.y] = symbol;
+
+    return true;
 }
 
 Player& Repository::GetOpponent(int playerId) {

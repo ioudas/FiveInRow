@@ -21,7 +21,7 @@ void Client::Connect(std::string hostname, int port) {
         throw ClientException("Connection Failed! Url: " + hostname + ":" + std::to_string(port));
     }
 
-    printf("Connected to %s:%d", hostname.c_str(), port);
+    printf("Connected to %s:%d\n", hostname.c_str(), port);
 
 }
 

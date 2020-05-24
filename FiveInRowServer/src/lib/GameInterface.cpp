@@ -45,8 +45,12 @@ void GameInterface::RetryInvalidInput(int playerId) {
     server.SendMessageToPlayer(MessageType::InputRequest, playerId, "Invalid input. Please enter column number (1-9): ");
 }
 
+void GameInterface::RetryInputOutOfBounds(int playerId) {
+    server.SendMessageToPlayer(MessageType::InputRequest, playerId, "This column is already full. Please try again: ");
+}
+
 void GameInterface::NotifyGameWon(string winnerPlayerName) {
-    auto message = string_format("Player %s' won!", winnerPlayerName.c_str());
+    auto message = string_format("Player %s won!", winnerPlayerName.c_str());
     server.BroadCastMessage(MessageType::GameOver, message);
 }
 

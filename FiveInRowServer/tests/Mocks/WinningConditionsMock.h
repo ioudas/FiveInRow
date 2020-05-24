@@ -3,5 +3,5 @@
 
 class WinningConditionsMock : public IWinningConditions {
 public:
-    MOCK_METHOD(bool, IsGameWon, (GameState gameState, char &winnerPlayerSymbol), (const, override));
+    MOCK_METHOD(bool, IsGameWon, (GameState gameState, Coords from), (const, override));
 };

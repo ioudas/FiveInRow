@@ -11,6 +11,7 @@ public:
     MOCK_METHOD(void, NotifyWaitForOpponentTurn, (int playerId, string opponentName), (override));
     MOCK_METHOD(void, NotifyPlayerTurn, (int playerId), (override));
     MOCK_METHOD(void, RetryInvalidInput, (int playerId), (override));
+    MOCK_METHOD(void, RetryInputOutOfBounds, (int playerId), (override));
     MOCK_METHOD(void, NotifyGameWon, (string winnerPlayerName), (override));
     MOCK_METHOD(void, NotifyGameAbandoned, (int winnerPlayerId, string playerLeftName), (override));
 };

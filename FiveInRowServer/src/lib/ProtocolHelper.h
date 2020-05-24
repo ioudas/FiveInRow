@@ -1,7 +1,7 @@
 #ifndef FIVEINROWSERVER_PROTOCOLHELPER_H
 #define FIVEINROWSERVER_PROTOCOLHELPER_H
 
-#include "Models/MessageType.cpp"
+#include "Models/MessageType.h"
 #include <string>
 
 class ProtocolHelper {

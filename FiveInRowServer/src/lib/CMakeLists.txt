@@ -19,10 +19,11 @@ set(SOURCE_FILES
         WinningConditions.cpp
         BoardFormatter.cpp
         ProtocolHelper.cpp
-        Exceptions/ServerException.cpp
-        Models/GameState.cpp
-        Models/MessageType.cpp
-        Models/Player.cpp
+        Exceptions/ServerException.h
+        Models/GameState.h
+        Models/MessageType.h
+        Models/Player.h
+        Models/Coords.h
         Util/StringUtil.cpp
         Util/RandomProvider.cpp)
 

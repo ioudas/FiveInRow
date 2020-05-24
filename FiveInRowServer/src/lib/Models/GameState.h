@@ -2,7 +2,7 @@
 #define FIVEINROWSERVER_GAMESTATE_C
 
 #include <vector>
-#include "Models/Player.cpp"
+#include "Models/Player.h"
 
 using std::vector;
 

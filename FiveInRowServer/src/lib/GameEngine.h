@@ -22,7 +22,7 @@ private:
 
     void HandleLogin(int playerId, string input);
 
-    void HandleGameWon(char winnerSymbol) const;
+    void HandleGameWon(string PlayerName) const;
 
 public:
     GameEngine(IRepository &repository,

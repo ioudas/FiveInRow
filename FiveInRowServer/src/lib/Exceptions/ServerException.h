@@ -1,4 +1,8 @@
-#include <iostream>
+
+#ifndef FIVEINROWSERVER_SERVEREXCEPTION_H
+#define FIVEINROWSERVER_SERVEREXCEPTION_H
+
+#include <string>
 
 class ServerException : public std::exception {
     const std::string Message;
@@ -18,3 +22,5 @@ public:
         return Message.c_str();
     }
 };
+
+#endif //FIVEINROWSERVER_SERVEREXCEPTION_H

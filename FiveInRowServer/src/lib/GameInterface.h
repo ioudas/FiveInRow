@@ -18,6 +18,7 @@ public:
     virtual void NotifyWaitForOpponentTurn(int playerId, string opponentName) = 0;
     virtual void NotifyPlayerTurn(int playerId) = 0;
     virtual void RetryInvalidInput(int playerId) = 0;
+    virtual void RetryInputOutOfBounds(int playerId) = 0;
     virtual void NotifyGameWon(string winnerPlayerName) = 0;
     virtual void NotifyGameAbandoned(int winnerPlayerId, string playerLeftName) = 0;
 };
@@ -42,6 +43,7 @@ public:
     void NotifyWaitForOpponentTurn(int playerId, string opponentName) override;
     void NotifyPlayerTurn(int playerId) override;
     void RetryInvalidInput(int playerId) override;
+    void RetryInputOutOfBounds(int playerId) override;
     void NotifyGameWon(string winnerPlayerName) override;
     void NotifyGameAbandoned(int winnerPlayerId, string playerLeftName) override;
 };

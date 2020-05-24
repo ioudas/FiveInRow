@@ -23,7 +23,12 @@ void GameEngine::PlayerLeft(int playerId) {
 
 void GameEngine::PlayerInput(int playerId, string input) {
 
-    auto player = repository.GetPlayer(playerId);
+    if(repository.GetPlayerCount() == 0) {
+        printf("ERROR: No players connected");
+        return;
+    }
+
+    Player player = repository.GetPlayer(playerId);
 
     if(player.PlayerName.empty()) {
         HandleLogin(playerId, input);
@@ -54,13 +59,17 @@ void GameEngine::PlayerInput(int playerId, string input) {
         return;
     }
 
-    repository.AddPlayerTurn(playerId, columnNumber);
+    Coords coords(0, 0);
+    if(!repository.TryAddPlayerTurn(playerId, columnNumber, coords)) {
+        printf("ERROR: Move is out of bounds: %s", input.c_str());
+        gameInterface.RetryInputOutOfBounds(playerId);
+        return;
+    }
     gameInterface.SendBoardState();
 
-    char winnerSymbol;
-    if (winningConditions.IsGameWon(repository.GetGameState(), winnerSymbol))
+    if (winningConditions.IsGameWon(repository.GetGameState(), coords))
     {
-        HandleGameWon(winnerSymbol);
+        HandleGameWon(player.PlayerName);
 
         return;
     }
@@ -105,11 +114,7 @@ void GameEngine::StartNewGame() {
     gameInterface.NotifyWaitForOpponentTurn(otherPlayer.Id, player.PlayerName);
 }
 
-void GameEngine::HandleGameWon(char winnerSymbol) const {
-    auto players = repository.GetPlayers();
-    auto winner = *std::find_if(players.begin(), players.end(),
-                  [winnerSymbol](const Player p) { return p.Symbol == winnerSymbol; });
-
-    gameInterface.NotifyGameWon(winner.PlayerName);
+void GameEngine::HandleGameWon(string winnerName) const {
+    gameInterface.NotifyGameWon(winnerName);
     repository.ClearState();
 }

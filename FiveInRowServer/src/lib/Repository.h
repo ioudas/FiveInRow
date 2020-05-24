@@ -1,7 +1,8 @@
 #ifndef FIVEINROW_REPOSITORY_H
 #define FIVEINROW_REPOSITORY_H
 
-#include "Models/GameState.cpp"
+#include <Models/Coords.h>
+#include "Models/GameState.h"
 #include <string>
 #include <array>
 
@@ -14,7 +15,7 @@ public:
 
     virtual int GetActingPlayerId() = 0;
 
-    virtual void AddPlayerTurn(int playerId, int columnNum) = 0;
+    virtual bool TryAddPlayerTurn(int playerId, int columnNum, Coords &coords) = 0;
 
     virtual void AddPlayer(int playerId) = 0;
 
@@ -47,7 +48,7 @@ public:
 
     int GetActingPlayerId() override;
 
-    void AddPlayerTurn(int playerId, int columnNum) override;
+    bool TryAddPlayerTurn(int playerId, int columnNum, Coords &coords) override;
 
     void AddPlayer(int playerId) override;
 

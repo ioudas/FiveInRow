@@ -44,12 +44,13 @@ TEST(RepositoryTestSuite, ShouldSetActingPlayerId) {
 
 TEST(RepositoryTestSuite, ShouldClearState) {
     Repository sut;
+    Coords coords(0,0);
     sut.AddPlayer(1);
     sut.SetPlayerName(1, "P1");
     sut.AddPlayer(2);
     sut.SetPlayerName(2, "P2");
-    sut.AddPlayerTurn(1, 1);
-    sut.AddPlayerTurn(2, 3);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(2, 3, coords);
 
     sut.ClearState();
 
@@ -79,6 +80,86 @@ TEST(RepositoryTestSuite, ShouldEmptyPlayerSetGivenNoPlayers) {
     ASSERT_EQ(0, actualResult);
 }
 
+TEST(RepositoryTestSuite, ShouldAllowUpToSixInOneColumn) {
+    Repository sut;
+    sut.AddPlayer(1);
+    sut.SetPlayerName(1, "P1");
+    sut.AddPlayer(2);
+    sut.SetPlayerName(2, "P2");
+    Coords coords(0,0);
+
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    int actualResult = sut.TryAddPlayerTurn(1, 1, coords);
+
+    ASSERT_EQ(true, actualResult);
+}
+
+TEST(RepositoryTestSuite, ShouldRecordPlayerTurn) {
+    Repository sut;
+    sut.AddPlayer(1);
+    sut.SetPlayerName(1, "P1");
+    sut.AddPlayer(2);
+    sut.SetPlayerName(2, "P2");
+    Coords coords(0,0);
+
+    sut.TryAddPlayerTurn(1, 9, coords);
+    sut.TryAddPlayerTurn(2, 8, coords);
+    sut.TryAddPlayerTurn(1, 9, coords);
+    sut.TryAddPlayerTurn(1, 8, coords);
+    sut.TryAddPlayerTurn(2, 9, coords);
+    int actualResult = sut.TryAddPlayerTurn(1, 9, coords);
+
+    ASSERT_EQ(true, actualResult);
+    ASSERT_EQ(8, coords.x);
+    ASSERT_EQ(3, coords.y);
+}
+
+TEST(RepositoryTestSuite, ShouldRecordPlayerTurnToLastRow) {
+    Repository sut;
+    sut.AddPlayer(1);
+    sut.SetPlayerName(1, "P1");
+    sut.AddPlayer(2);
+    sut.SetPlayerName(2, "P2");
+    Coords coords(0,0);
+
+    sut.TryAddPlayerTurn(1, 9, coords);
+    sut.TryAddPlayerTurn(2, 8, coords);
+    sut.TryAddPlayerTurn(1, 9, coords);
+    sut.TryAddPlayerTurn(1, 8, coords);
+    sut.TryAddPlayerTurn(2, 9, coords);
+    sut.TryAddPlayerTurn(2, 9, coords);
+    sut.TryAddPlayerTurn(2, 9, coords);
+    int actualResult = sut.TryAddPlayerTurn(1, 9, coords);
+
+    ASSERT_EQ(true, actualResult);
+    ASSERT_EQ(8, coords.x);
+    ASSERT_EQ(5, coords.y);
+}
+
+TEST(RepositoryTestSuite, ShouldRefuseAddTurnWhenColumnFull) {
+    Repository sut;
+    sut.AddPlayer(1);
+    sut.SetPlayerName(1, "P1");
+    sut.AddPlayer(2);
+    sut.SetPlayerName(2, "P2");
+    Coords coords(0,0);
+
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    sut.TryAddPlayerTurn(1, 1, coords);
+    int actualResult = sut.TryAddPlayerTurn(1, 1, coords);
+
+
+    ASSERT_EQ(false, actualResult);
+}
+
 TEST(RepositoryTestSuite, ShouldFailWhenSetNameGivenNoPlayers) {
     Repository sut;
 
@@ -87,6 +168,7 @@ TEST(RepositoryTestSuite, ShouldFailWhenSetNameGivenNoPlayers) {
 
 TEST(RepositoryTestSuite, ShouldFailWhenAddPlayerTurnGivenNoPlayers) {
     Repository sut;
+    Coords coords(0,0);
 
-    ASSERT_DEATH(sut.AddPlayerTurn(2, 1), "");
+    ASSERT_DEATH(sut.TryAddPlayerTurn(2, 1, coords), "");
 }

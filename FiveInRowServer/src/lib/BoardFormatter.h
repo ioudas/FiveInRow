@@ -3,7 +3,7 @@
 
 
 #include <string>
-#include "Models/GameState.cpp"
+#include "Models/GameState.h"
 #include "Util/StringUtil.cpp"
 
 class IBoardFormatter {

@@ -1,4 +1,4 @@
-#include "Exceptions/ServerException.cpp"
+#include "Exceptions/ServerException.h"
 #include "Server.h"
 #include "ProtocolHelper.h"
 

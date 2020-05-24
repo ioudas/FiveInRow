@@ -1,12 +1,13 @@
 #include <csignal>
 #include <cstdlib>
+#include <iostream>
 
 #include "Repository.h"
 #include "Server.h"
 #include "GameEngine.h"
 #include "GameInterface.h"
 #include "WinningConditions.h"
-#include "Exceptions/ServerException.cpp"
+#include "Exceptions/ServerException.h"
 
 #define DEFAULT_PORT 8888;
 
