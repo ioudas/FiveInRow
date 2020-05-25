@@ -1,5 +1,6 @@
 # prerequisites
-mingw-w64 (i686-8.1.0-posix-dwarf-rt_v6-rev0) **on PATH**
+1) mingw-w64 (i686-8.1.0-posix-dwarf-rt_v6-rev0) **on PATH**
+2) cmake 3.16.5 or higher **on PATH**
 
 # FiveInRow Server
 
